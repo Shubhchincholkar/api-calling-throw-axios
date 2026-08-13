@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
-// 1. Create the Context
+
 const UserContext = createContext();
 
-// 2. Create a Provider — this holds the actual state and fetch logic
+
 export function UserProvider({ children }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +30,7 @@ export function UserProvider({ children }) {
     fetchUsers();
   }, []);
 
-  // Whatever goes in "value" is available to any component that calls useUsers()
+
   return (
     <UserContext.Provider value={{ users, loading, fetchUsers }}>
       {children}
@@ -38,7 +38,7 @@ export function UserProvider({ children }) {
   );
 }
 
-// 3. Custom hook for consuming the context cleanly
+
 // eslint-disable-next-line react-refresh/only-export-components
 export function useUsers() {
   const context = useContext(UserContext);

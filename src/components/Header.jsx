@@ -1,26 +1,39 @@
 import { useUsers } from "./UserContext";
+
 function Header() {
-  const { loading, fetchUsers } = useUsers();
+  const { loading, fetchUsers, users } = useUsers();
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
+    <header className="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
       <div>
-        <h1 className="text-4xl sm:text-5xl font-black tracking-tight bg-linear-to-r from-cyan-300 via-violet-300 to-fuchsia-400 bg-clip-text text-transparent">
-          User Directory
+        <div className="mb-3 flex items-center gap-2">
+          <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-400" />
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-300">
+            Live directory
+          </span>
+        </div>
+
+        <h1 className="bg-linear-to-r from-cyan-300 via-violet-300 to-fuchsia-400 bg-clip-text text-4xl font-black tracking-tight text-transparent sm:text-6xl">
+          User Directory . [Context API]
         </h1>
-        <p className="text-sm text-slate-400 mt-2 tracking-wide">
-          Fetched live via Context + Axios + useEffect
+
+        <p className="mt-3 max-w-md text-sm leading-6 text-slate-400">
+          Explore your team. Select any profile to see their complete details.
         </p>
       </div>
 
       <button
-        onClick={() => fetchUsers()}
+        type="button"
+        onClick={fetchUsers}
         disabled={loading}
-        className="bg-linear-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 disabled:opacity-50 text-white text-sm font-bold px-6 py-3 rounded-full shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 transition-all duration-200 hover:scale-105"
+        className="group inline-flex items-center justify-center gap-2 rounded-2xl border border-cyan-300/20 bg-cyan-400/10 px-5 py-3 text-sm font-bold text-cyan-100 shadow-lg shadow-cyan-950/30 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/50 hover:bg-cyan-400 hover:text-slate-950 hover:shadow-cyan-400/20 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {loading ? "Refreshing..." : "Refresh"}
+        <span className={loading ? "animate-spin" : "transition-transform group-hover:rotate-180"}>
+          ↻
+        </span>
+        {loading ? "Refreshing..." : `Refresh ${users.length} users`}
       </button>
-    </div>
+    </header>
   );
 }
 

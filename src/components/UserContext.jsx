@@ -1,9 +1,7 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
-
 const UserContext = createContext();
-
 
 export function UserProvider({ children }) {
   const [users, setUsers] = useState([]);
@@ -12,14 +10,12 @@ export function UserProvider({ children }) {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-
       const response = await axios.get(
         "https://jsonplaceholder.typicode.com/users",
       );
-
       setUsers(response.data);
     } catch (err) {
-      console.error(err);
+      console.error("Could not fetch users:", err);
     } finally {
       setLoading(false);
     }
@@ -30,7 +26,6 @@ export function UserProvider({ children }) {
     fetchUsers();
   }, []);
 
-
   return (
     <UserContext.Provider value={{ users, loading, fetchUsers }}>
       {children}
@@ -38,12 +33,13 @@ export function UserProvider({ children }) {
   );
 }
 
-
 // eslint-disable-next-line react-refresh/only-export-components
 export function useUsers() {
   const context = useContext(UserContext);
+
   if (!context) {
     throw new Error("useUsers must be used within a UserProvider");
   }
+
   return context;
 }
